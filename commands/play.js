@@ -6,39 +6,39 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("play")
         .setDescription("Play a song.")
-        .addSubcommand(subcommand => {
+        .addSubcommand(subcommand =>
             subcommand
                 .setName("search")
                 .setDescription("Searches for a song.")
-                .addStringOption(option => {
+                .addStringOption(option =>
                     option
                         .setName("searchterms")
                         .setDescription("search keywords")
-                        .setRequired(true);
-                })
-        })
-        .addSubcommand(subcommand => {
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand(subcommand =>
             subcommand
                 .setName("playlist")
                 .setDescription("Plays playlist from YT")
-                .addStringOption(option => {
+                .addStringOption(option =>
                     option
                         .setName("url")
                         .setDescription("playlist url")
-                        .setRequired(true);
-                })
-        })
-        .addSubcommand(subcommand => {
+                        .setRequired(true)
+                )
+        )
+        .addSubcommand(subcommand =>
             subcommand
                 .setName("song")
                 .setDescription("Plays song from YT")
-                .addStringOption(option => {
+                .addStringOption(option =>
                     option
                         .setName("url")
                         .setDescription("url of the song")
-                        .setRequired(true);
-                })
-        }),
+                        .setRequired(true)
+                )
+        ),
     execute: async ({client, interaction}) => {
         if (!interaction.member.voice.channel) {
             await interaction.reply("You must be in a voice channel to use this command.");
@@ -60,7 +60,7 @@ module.exports = {
             
             if (result.tracks.length === 0) {
                 await interaction.reply("no results found")
-                return
+                return;
             }
 
             const song = result.tracks[0]
@@ -84,7 +84,7 @@ module.exports = {
             
             if (result.tracks.length === 0) {
                 await interaction.reply("no playlist found")
-                return
+                return;
             }
 
             const playlist = result.playlist[0]
@@ -106,7 +106,7 @@ module.exports = {
             
             if (result.tracks.length === 0) {
                 await interaction.reply("no results found")
-                return
+                return;
             }
 
             const song = result.tracks[0]
