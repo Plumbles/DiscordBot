@@ -5,9 +5,9 @@ const fs = require('node:fs');
 
 const client = new Client({
     intents:[GatewayIntentBits.Guilds]
-})
+});
 
-client.commands = new Collection()
+client.commands = new Collection();
 
 
 //slashCommands
