@@ -17,13 +17,13 @@ module.exports = {
         .addSubcommand(subcommand =>
 			subcommand
 				.setName("playlist")
-				.setDescription("Plays a playlist from YT")
+				.setDescription("Plays a playlist from either YT or Spotify")
 				.addStringOption(option => option.setName("url").setDescription("the playlist's url").setRequired(true))
 		)
 		.addSubcommand(subcommand =>
 			subcommand
 				.setName("song")
-				.setDescription("Plays a single song from YT")
+				.setDescription("Plays a single song from either YT or Spotify")
 				.addStringOption(option => option.setName("url").setDescription("the song's url").setRequired(true))
 		),
 	execute: async ({ client, interaction }) => {
@@ -44,7 +44,7 @@ module.exports = {
             // Search for the song using the discord-player
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.YOUTUBE_VIDEO
+                searchEngine: QueryType.AUTO
             })
 
             // finish if no tracks were found
@@ -66,7 +66,7 @@ module.exports = {
             let url = interaction.options.getString("url")
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.YOUTUBE_PLAYLIST
+                searchEngine: QueryType.AUTO
             })
 
             if (result.tracks.length === 0)
