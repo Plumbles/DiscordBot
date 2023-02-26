@@ -16,9 +16,9 @@ module.exports = {
             return;
         }
 
-        // Get the first 10 songs in the queue
+        // Get the first 5 songs in the queue
         const queueString = queue.tracks.slice(0, 5).map((song, i) => {
-            return `${i + 1}) \`[${song.duration}]\` ${song.title} - <@${song.requestedBy.id}>`
+            return `${i + 1}  -  [${song.title}](${song.url}) \`[${song.duration}]\` ~ <@${song.requestedBy.id}>`
         }).join("\n")
 
         // Get the current song
@@ -28,7 +28,7 @@ module.exports = {
             embeds: [
                 new EmbedBuilder()
                     .setDescription(`**Currently Playing**\n` + 
-                        (currentSong ? `\`[${currentSong.duration}]\` ${currentSong.title} - <@${currentSong.requestedBy.id}>` : "None") +
+                        (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
                         `\n\n**Queue**\n${queueString}`
                     )
                     .setThumbnail(currentSong.setThumbnail)
