@@ -22,11 +22,9 @@ module.exports = {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`**Currentl  y Playing**\n` + 
-                        (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None")
-                    )
-                    .setFooter(
-                        {text: `${queue.createProgressBar()}`}
+                    .setDescription(`**Now Playing**\n` + 
+                        (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
+                        `\n\n${queue.createProgressBar()}`
                     )
                 ]
             })

@@ -1,20 +1,31 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
-const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
-    data: new SlashCommandBuilder()
+	data:new SlashCommandBuilder()
         .setName("remove")
-        .setDescription("removes a song in the queue")
-        .addNumberOption(option =>
-            option.setName("position").setDescription("Position of song").setRequired(false)
-        ),
+        .setDescription("Removes selected song")
+        .addIntegerOption(option =>
+            option
+                .setName("position")
+                .setDescription("position of song")
+                .setRequired(true)
+            ),
 
-    execute: async ({ client, interaction }) => {
-        let position = (await interaction.options.getNumber("position", true));
+	execute: async ({ client, interaction }) => {
+        let position = await interaction.options.getInteger("position", true);
 
         const queue = client.player.getQueue(interaction.guildId)
-        
-        queue.remove(queue.seek(position))
 
-    }
+        if (!queue) {
+            await interaction.reply("There are no songs currently playing")
+            return;
+        }
+        position = position - 1;
+
+        // Removes the song from queue
+		queue.remove(position)
+
+        // Return a reply
+        await interaction.reply(`The song was moved`)
+	}
 }

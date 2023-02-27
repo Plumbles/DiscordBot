@@ -37,6 +37,18 @@ module.exports = {
         // Get the current song
         const currentSong = queue.current
 
+        if (queue.tracks.length < 1) {
+            await interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`**Queue**\n` + 
+                        (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
+                        `\n\n${queue.createProgressBar()}`
+                    )
+                ]
+            }) 
+            return;
+        }
 
         // Embed
         await interaction.reply({
@@ -44,6 +56,7 @@ module.exports = {
                 new EmbedBuilder()
                 .setDescription(`**Currently Playing**\n` + 
                         (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
+                        `\n\n${queue.createProgressBar()}` +
                         `\n\n**Queue**\n${queueString}`
                     )
                     .setFooter(
