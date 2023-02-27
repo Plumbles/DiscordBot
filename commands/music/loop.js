@@ -35,8 +35,7 @@ module.exports = {
 		const queue = client.player.getQueue(interaction.guildId)
 
         // Check if the queue is empty
-		if (!queue)
-		{
+		if (!queue) {
 			await interaction.reply("There are no songs to be looped")
 			return;
 		}
@@ -57,19 +56,19 @@ module.exports = {
         }
         else if (interaction.options.getSubcommand() === "off") {
             queue.setRepeatMode(QueueRepeatMode.OFF);
-            return interaction.reply(`Loop set to: **\`off\`**`)
+            return interaction.reply(`Loop mode set to: **\`off\`**`)
         }
         else if (interaction.options.getSubcommand() === "queue") {
             queue.setRepeatMode(QueueRepeatMode.QUEUE);
-            return interaction.reply(`Loop set to: **\`queue\`**`)
+            return interaction.reply(`Loop mode set to: **\`queue\`**`)
         }
         else if (interaction.options.getSubcommand() === "track") {
             queue.setRepeatMode(QueueRepeatMode.TRACK);
-            return interaction.reply(`Loop set to: **\`track\`**`)
+            return interaction.reply(`Loop mode set to: **\`track\`**`)
         }
         else if (interaction.options.getSubcommand() === "autoplay") {
             queue.setRepeatMode(QueueRepeatMode.AUTOPLAY);
-            return interaction.reply(`Loop set to: **\`autoplay\`**`)
+            return interaction.reply(`Loop mode set to: **\`autoplay\`**`)
         }
 	}
 }
