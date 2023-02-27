@@ -1,21 +1,21 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
-/*
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("move")
         .setDescription("moves a song to a set position in queue")
-        .addNumberOption(option =>
+        .addIntegerOption(option =>
             option
-                .setName("fromPosition")
+                .setName("from")
                 .setDescription("first queue position")
                 .setRequired(true)
-                .addNumberOption(option =>
-                    option
-                        .setName("toPosition")
-                        .setDescription("second queue position")
-                        .setRequired(true)
-                )
+        )
+        .addIntegerOption(option =>
+            option
+                .setName("to")
+                .setDescription("second queue position")
+                .setRequired(true)
         ),
     execute: async ({ client, interaction }) => {
         // Get the queue for the server
@@ -23,11 +23,17 @@ module.exports = {
 
         // Check if the queue is empty
 		if (!queue) {
-			await interaction.reply("There are no songs to be looped")
+			await interaction.reply("There are no songs to be moved")
 			return;
 		}
 
+        const input1 = await interaction.options.getInteger("from", true) + 1;
+        const input2 = await interaction.options.getInteger("to", true) + 1;
+
+        
+
+
+        await interaction.reply(`Song moved`)
+
     }
 }
-
-*/
