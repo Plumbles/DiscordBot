@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders")
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { useQueue } = require("discord-player");
 const { EmbedBuilder } = require("discord.js")
 
 module.exports = {
@@ -8,16 +9,16 @@ module.exports = {
 
     execute: async ({ client, interaction }) => {
         // Get the queue for the server
-        const queue = client.player.getQueue(interaction.guildId)
+        const queue = useQueue(interaction.guildId);
 
         // Check if the queue is empty, else shuffle
-        if (!queue || !queue.playing) {
+        if (!queue) {
             await interaction.reply("There are no songs to be shuffled")
 			return;
         }
         
         // Shuffles the queue
-        queue.shuffle()
+        queue.tracks.shuffle()
 
         // Embed
         await interaction.reply({

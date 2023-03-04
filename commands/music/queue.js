@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
+const { useQueue } = require("discord-player");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -12,7 +13,7 @@ module.exports = {
     execute: async ({ client, interaction }) => {
         let page = (await interaction.options.getNumber("page", false)) ?? 1;
 
-        const queue = client.player.getQueue(interaction.guildId)
+        const queue = useQueue(interaction.guildId);
 
         // check if there are songs in the queue
         if (!queue) {
@@ -22,28 +23,33 @@ module.exports = {
 
         const multiple = 5;
 
-        const maxPages = Math.ceil(queue.tracks.length / multiple);
+        const maxPages = Math.ceil(queue.tracks.size / multiple);
 
         if (page < 1 || page > maxPages) page = 1;
 
         const end = page * multiple;
         const start = end - multiple;
 
-        // Get the first 5 songs in the queue
-        const queueString = queue.tracks.slice(start, end).map((song, i) => {
-            return `${(start + i) + 1}  -  [${song.title}](${song.url}) \`[${song.duration}]\` ~ <@${song.requestedBy.id}>`
-        }).join("\n")
+        // Create array of tracks
+        const tracks = queue.tracks.toArray().map((track, i) => `${(i++) + 1}  -  [${track.title}](${track.url}) \`[${track.duration}]\` ~ <@${track.requestedBy.id}>`);
+        let queueString
+
+        for (let i = 0; i < maxPages; i++) {
+            queueString = tracks.slice(start, end).join("\n")
+        }
+
+
 
         // Get the current song
-        const currentSong = queue.current
+        const currentSong = queue.currentTrack;
 
-        if (queue.tracks.length < 1) {
+        if (queue.tracks.size < 1) {
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                     .setDescription(`**Queue**\n` + 
                         (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
-                        `\n\n${queue.createProgressBar()}`
+                        `\n\n${queue.node.createProgressBar()}`
                     )
                 ]
             }) 
@@ -56,28 +62,16 @@ module.exports = {
                 new EmbedBuilder()
                 .setDescription(`**Currently Playing**\n` + 
                         (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
-                        `\n\n${queue.createProgressBar()}` +
+                        `\n\n${queue.node.createProgressBar()}` +
                         `\n\n**Queue**\n${queueString}`
                     )
                     .setFooter(
-                        {text: `Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.length ? `${queue.tracks.length}` : `${end}`} of ${queue.tracks.length}`},
+                        {text: `Page ${page} of ${maxPages} | song ${start + 1} to ${end > queue.tracks.size ? `${queue.tracks.size}` : `${end}`} of ${queue.tracks.size}`},
                         interaction.user.displayAvatarURL({ dynamic: true })
                     )
             ]
         })
+        
 
-
-
-
-        /*await interaction.reply({
-            embeds: [
-                new EmbedBuilder()
-                    .setDescription(`**Currently Playing**\n` + 
-                        (currentSong ?  `[${currentSong.title}](${currentSong.url}) \`[${currentSong.duration}]\` ~ <@${currentSong.requestedBy.id}>` : "None") +
-                        `\n\n**Queue**\n${queueString}`
-                    )
-                    .setThumbnail(currentSong.setThumbnail)
-            ]
-        })*/
     }
 }

@@ -1,4 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders")
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { useQueue } = require("discord-player");
 
 module.exports = {
 	data:new SlashCommandBuilder()
@@ -14,7 +15,7 @@ module.exports = {
 	execute: async ({ client, interaction }) => {
         let position = await interaction.options.getInteger("position", true);
 
-        const queue = client.player.getQueue(interaction.guildId)
+        const queue = useQueue(interaction.guildId);
 
         if (!queue) {
             await interaction.reply("There are no songs currently playing")
@@ -23,7 +24,7 @@ module.exports = {
         position = position - 1;
 
         // Removes the song from queue
-		queue.remove(position)
+		queue.removeTrack(position)
 
         // Return a reply
         await interaction.reply(`The song was moved`)

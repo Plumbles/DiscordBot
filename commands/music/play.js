@@ -31,7 +31,7 @@ module.exports = {
 		if (!interaction.member.voice.channel) return interaction.reply("You need to be in a Voice Channel to play a song.");
 
         // Create a play queue for the server
-		const queue = await client.player.createQueue(interaction.guild);
+		const queue = await client.player.nodes.create(interaction.channel);
 
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
@@ -48,7 +48,7 @@ module.exports = {
             })
 
             // finish if no tracks were found
-            if (result.tracks.length === 0)
+            if (result.tracks.size === 0)
                 return interaction.reply("No results")
 
             // Add the track to the queue
@@ -69,12 +69,12 @@ module.exports = {
                 searchEngine: QueryType.AUTO
             })
 
-            if (result.tracks.length === 0)
+            if (result.tracks.size === 0)
                 return interaction.reply(`No playlists found with ${url}`)
             
             // Add the tracks to the queue
             const playlist = result.playlist
-            await queue.addTracks(result.tracks)
+            await queue.addTrack(result.tracks)
             embed
                 .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
 
@@ -89,7 +89,7 @@ module.exports = {
             })
 
             // finish if no tracks were found
-            if (result.tracks.length === 0)
+            if (result.tracks.size === 0)
                 return interaction.editReply("No results")
             
             // Add the track to the queue
@@ -102,7 +102,7 @@ module.exports = {
 		}
 
         // Play the song
-        if (!queue.playing) await queue.play()
+        if (!queue.node.isPlaying()) queue.node.play()
         
         // Respond with the embed containing information about the player
         await interaction.reply({

@@ -1,12 +1,14 @@
-const { SlashCommandBuilder } = require("@discordjs/builders")
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { useQueue } = require("discord-player");
 
 module.exports = {
 	data: new SlashCommandBuilder()
         .setName("resume")
         .setDescription("Resumes the current song"),
+        
 	execute: async ({ client, interaction }) => {
         // Get the queue for the server
-		const queue = client.player.getQueue(interaction.guildId)
+		const queue = useQueue(interaction.guildId);
 
         // Check if the queue is empty
 		if (!queue)
@@ -16,7 +18,7 @@ module.exports = {
         }
 
         // Pause the current song
-		queue.setPaused(false);
+		queue.node.resume();
 
         await interaction.reply("Player has been resumed.")
 	},

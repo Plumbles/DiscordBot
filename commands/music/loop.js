@@ -1,4 +1,4 @@
-const { QueueRepeatMode } = require("discord-player");
+const { QueueRepeatMode, useQueue } = require("discord-player");
 const { SlashCommandBuilder } = require("@discordjs/builders")
 
 module.exports = {
@@ -32,7 +32,7 @@ module.exports = {
         ),
 	execute: async ({ client, interaction }) => {
         // Get the queue for the server
-		const queue = client.player.getQueue(interaction.guildId)
+		const queue = useQueue(interaction.guildId);
 
         // Check if the queue is empty
 		if (!queue) {

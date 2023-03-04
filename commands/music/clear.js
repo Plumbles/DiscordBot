@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
+const { useQueue } = require("discord-player");
 
 module.exports = {
 	data:new SlashCommandBuilder()
@@ -7,7 +8,7 @@ module.exports = {
 
 	execute: async ({ client, interaction }) => {
         // Get the queue for the server
-		const queue = client.player.getQueue(interaction.guildId)
+		const queue = useQueue(interaction.guildId);
 
         // If there is no queue, return
 		if (!queue) {
@@ -15,10 +16,8 @@ module.exports = {
             return;
         }
 
-        const currentSong = queue.current
-
         // Clears the queue
-		queue.clear()
+		queue.tracks.clear()
 
         // Return a reply
         await interaction.reply(`The queue has been cleared`)
