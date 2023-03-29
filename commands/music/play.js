@@ -38,7 +38,8 @@ module.exports = {
 
 		let embed = new EmbedBuilder()
 
-		if (interaction.options.getSubcommand() === "song") {
+
+        if (interaction.options.getSubcommand() === "song") {
             let url = interaction.options.getString("url")
             
             // Search for the song using the discord-player
@@ -60,6 +61,7 @@ module.exports = {
                 .setFooter({ text: `Duration: ${song.duration}`})
 
 		}
+
         else if (interaction.options.getSubcommand() === "playlist") {
 
             // Search for the playlist using the discord-player
