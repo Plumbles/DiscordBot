@@ -22,7 +22,6 @@ module.exports = {
         }
 
         const multiple = 5;
-
         const maxPages = Math.ceil(queue.tracks.size / multiple);
 
         if (page < 1 || page > maxPages) page = 1;
