@@ -26,7 +26,7 @@ module.exports = {
 				.setDescription("Plays a single song from either YT or Spotify")
 				.addStringOption(option => option.setName("url").setDescription("the song's url").setRequired(true))
 		),
-        
+
 	execute: async ({ client, interaction }) => {
         // Make sure the user is inside a voice channel
 		if (!interaction.member.voice.channel) return interaction.reply("You need to be in a Voice Channel to play a song.");
@@ -86,17 +86,17 @@ module.exports = {
         
         else if (interaction.options.getSubcommand() === "search") {
 
-            let url = interaction.options.getString("searchterms")
+            let terms = interaction.options.getString("searchterms")
             
             // Search for the song using the discord-player
-            const result = await client.player.search(url, {
+            const result = await client.player.search(terms, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO_SEARCH
+                searchEngine: QueryType.AUTO
             })
 
             // Finish if no tracks were found
             if (result.tracks.size === 0)
-                return interaction.reply("No results")
+                return interaction.editReply("No results")
 
             // Add the track to the queue
             const song = result.tracks[0]
