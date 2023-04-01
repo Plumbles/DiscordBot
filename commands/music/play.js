@@ -26,10 +26,12 @@ module.exports = {
 				.setDescription("Plays a single song from either YT or Spotify")
 				.addStringOption(option => option.setName("url").setDescription("the song's url").setRequired(true))
 		),
+        
 	execute: async ({ client, interaction }) => {
         // Make sure the user is inside a voice channel
 		if (!interaction.member.voice.channel) return interaction.reply("You need to be in a Voice Channel to play a song.");
 
+        
         // Create a play queue for the server
 		const queue = await client.player.nodes.create(interaction.channel);
 
@@ -81,19 +83,21 @@ module.exports = {
                 .setDescription(`**${result.tracks.length} songs from [${playlist.title}](${playlist.url})** have been added to the Queue`)
 
 		} 
+        
         else if (interaction.options.getSubcommand() === "search") {
 
-            // Search for the song using the discord-player
             let url = interaction.options.getString("searchterms")
+            
+            // Search for the song using the discord-player
             const result = await client.player.search(url, {
                 requestedBy: interaction.user,
-                searchEngine: QueryType.AUTO
+                searchEngine: QueryType.AUTO_SEARCH
             })
 
-            // finish if no tracks were found
+            // Finish if no tracks were found
             if (result.tracks.size === 0)
-                return interaction.editReply("No results")
-            
+                return interaction.reply("No results")
+
             // Add the track to the queue
             const song = result.tracks[0]
             await queue.addTrack(song)
@@ -101,6 +105,7 @@ module.exports = {
                 .setDescription(`**[${song.title}](${song.url})** has been added to the Queue`)
                 .setThumbnail(song.thumbnail)
                 .setFooter({ text: `Duration: ${song.duration}`})
+
 		}
 
         // Play the song
