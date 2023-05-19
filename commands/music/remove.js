@@ -27,6 +27,6 @@ module.exports = {
 		queue.removeTrack(position)
 
         // Return a reply
-        await interaction.reply(`The song was moved`)
+        await interaction.reply(`The song was removed`)
 	}
 }

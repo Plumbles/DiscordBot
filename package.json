@@ -18,7 +18,7 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
     "genius-lyrics": "^4.4.3",
-    "ytdl-core": "^4.11.3"
+    "play-dl": "^1.9.6"
   },
   "keywords": [],
   "description": ""
