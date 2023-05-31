@@ -3,10 +3,9 @@ require('dotenv').config();
 const {REST} = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
-const { Player } = require("discord-player")
-
-const fs = require('fs');
-const path = require('path');
+const { Player } = require("discord-player");
+const path = require('node:path');
+const fs = require('node:fs');
 
 
 const client = new Client({
@@ -15,20 +14,35 @@ const client = new Client({
          GatewayIntentBits.GuildMessages]
 });
 
+
 // List of all commands
 const commands = [];
 client.commands = new Collection();
 
-const commandsPath = path.join(__dirname, "commands", "music" && "Utility"); // commandpaths
-const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-for(const file of commandFiles)
-{
-    const filePath = path.join(commandsPath, file);
-    const command = require(filePath);
 
-    client.commands.set(command.data.name, command);
-    commands.push(command.data.toJSON());
+const foldersPath = path.join(__dirname, 'commands'); // commandpaths
+const commandFolders = fs.readdirSync(foldersPath);
+
+for (const folder of commandFolders) {
+
+	const commandsPath = path.join(foldersPath, folder);
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+
+		// Set a new item in the Collection with the key as the command name and the value as the exported module
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+            commands.push(command.data.toJSON());
+		} else {
+			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
 }
+
+
 
 // Add the player on the client
 client.player = new Player(client, {
