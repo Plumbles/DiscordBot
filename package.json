@@ -10,15 +10,18 @@
   "dependencies": {
     "@discord-player/extractor": "^4.1.2",
     "@discordjs/builders": "^1.4.0",
-    "@discordjs/opus": "^0.8.0",
+    "@discordjs/opus": "github:discordjs/opus",
     "@discordjs/rest": "^1.5.0",
     "@discordjs/voice": "^0.14.0",
     "discord-api-types": "^0.37.35",
     "discord-player": "^6.1.1",
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3",
+    "ffmpeg-static": "^5.1.0",
     "genius-lyrics": "^4.4.3",
-    "play-dl": "^1.9.6"
+    "nodejs": "^0.0.0",
+    "play-dl": "^1.9.6",
+    "ytdl-core": "^4.11.4"
   },
   "keywords": [],
   "description": ""
