@@ -7,7 +7,7 @@ module.exports = {
         .setName("skip")
         .setDescription("Skips the current song"),
 
-	execute: async ({ client, interaction }) => {
+	execute: async ({ interaction }) => {
         // Get the queue for the server
 		const queue = useQueue(interaction.guildId);
 

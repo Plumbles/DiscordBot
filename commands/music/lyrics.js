@@ -8,7 +8,7 @@ module.exports = {
     .setName("lyrics")
     .setDescription("Finds the lyrics of current song"),
 
-    execute: async ({ client, interaction }) => {
+    execute: async ({ interaction }) => {
         const queue = useQueue(interaction.guildId);
         const lyricsFinder = lyricsExtractor(/* 'optional genius API key' */);
         const currentSong = queue.currentTrack;

@@ -47,7 +47,8 @@ for (const folder of commandFolders) {
 // Add the player on the client
 client.player = new Player(client, {
     ytdlOptions: {
-        quality: "highestaudio",
+        filter: 'audioonly',
+        quality: 'highestaudio',
         highWaterMark: 1 << 25
     }
 })

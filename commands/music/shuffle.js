@@ -7,7 +7,7 @@ module.exports = {
         .setName("shuffle")
         .setDescription("shuffles the queue order"),
 
-    execute: async ({ client, interaction }) => {
+    execute: async ({ interaction }) => {
         // Get the queue for the server
         const queue = useQueue(interaction.guildId);
 

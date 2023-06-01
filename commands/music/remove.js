@@ -12,7 +12,7 @@ module.exports = {
                 .setRequired(true)
             ),
 
-	execute: async ({ client, interaction }) => {
+	execute: async ({ interaction }) => {
         let position = await interaction.options.getInteger("position", true);
 
         const queue = useQueue(interaction.guildId);

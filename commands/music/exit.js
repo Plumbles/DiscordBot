@@ -5,7 +5,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
         .setName("exit")
         .setDescription("Kick the bot from the channel."),
-	execute: async ({ client, interaction }) => {
+	execute: async ({ interaction }) => {
 
         // Get the current queue
 		const queue = useQueue(interaction.guildId);

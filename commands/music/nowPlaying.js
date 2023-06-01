@@ -1,5 +1,5 @@
-const { SlashCommandBuilder } = require("@discordjs/builders")
-const { EmbedBuilder } = require("discord.js")
+const { SlashCommandBuilder } = require("@discordjs/builders");
+const { EmbedBuilder } = require("discord.js");
 const { useQueue } = require("discord-player");
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
         .setName("np")
         .setDescription("Shows which song is currently playing"),
 
-        execute: async({ client, interaction }) => {
+        execute: async({ interaction }) => {
             const queue = useQueue(interaction.guildId);
 
             if(!queue.node.isPlaying) {

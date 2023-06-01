@@ -11,7 +11,7 @@ module.exports = {
         .addNumberOption(option =>
             option.setName("to").setDescription("position to move the song").setRequired(true)),
         
-    execute: async ({ client, interaction }) => {
+    execute: async ({ interaction }) => {
         let fromPos = await interaction.options.getNumber("from", true);
         let toPos = await interaction.options.getNumber("to", true);
 

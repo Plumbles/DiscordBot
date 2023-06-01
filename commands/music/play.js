@@ -38,6 +38,9 @@ module.exports = {
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
+        // Normalize the queue dB-levels
+        if (queue.tracks.size == 0) await queue.filters.ffmpeg.toggle(['normalizer']);
+
 		let embed = new EmbedBuilder()
 
 

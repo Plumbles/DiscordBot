@@ -10,7 +10,7 @@ module.exports = {
             option.setName("page").setDescription("Page number of queue").setRequired(false)
         ),
 
-    execute: async ({ client, interaction }) => {
+    execute: async ({ interaction }) => {
         let page = (await interaction.options.getNumber("page", false)) ?? 1;
 
         const queue = useQueue(interaction.guildId);
