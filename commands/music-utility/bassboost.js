@@ -20,14 +20,13 @@ module.exports = {
         else {
             await queue.filters.ffmpeg.toggle(['bassboost']);
 
-            /*
+            
             await interaction.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setDescription(`The queue has been  B A S S E D!`)
                 ]
             })
-            */
         }
 	},
 }

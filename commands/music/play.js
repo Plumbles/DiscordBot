@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require("@discordjs/builders")
 const { EmbedBuilder } = require("discord.js")
 const { QueryType } = require("discord-player")
+const { SpotifyExtractor, SoundCloudExtractor } = require('@discord-player/extractor')
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -33,13 +34,25 @@ module.exports = {
 
         
         // Create a play queue for the server
-		const queue = await client.player.nodes.create(interaction.channel);
+		const queue = await client.player.nodes.create(interaction.channel, {
+            metadata: {
+                channel: interaction.channel,
+                requestedBy: interaction.user,
+                client: interaction.guild.members.me
+            },
+            selfDeaf: true,
+            leaveOnEmpty: true,
+            leaveOnEnd: true,
+        });
+
+        await client.player.extractors.register(SpotifyExtractor, {});
+        await client.player.extractors.register(SoundCloudExtractor, {});
 
         // Wait until you are connected to the channel
 		if (!queue.connection) await queue.connect(interaction.member.voice.channel)
 
         // Normalize the queue dB-levels
-        if (queue.tracks.size == 0) await queue.filters.ffmpeg.toggle(['normalizer']);
+        if (queue.tracks.size == 0 && !queue.node.isPlaying()) await queue.filters.ffmpeg.toggle(['normalizer']);
 
 		let embed = new EmbedBuilder()
 
@@ -113,6 +126,7 @@ module.exports = {
 
         // Play the song
         if (!queue.node.isPlaying()) queue.node.play()
+
         
         // Respond with the embed containing information about the player
         await interaction.reply({

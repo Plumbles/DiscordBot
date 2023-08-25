@@ -46,12 +46,17 @@ for (const folder of commandFolders) {
 
 // Add the player on the client
 client.player = new Player(client, {
+    useLegacyFFmpeg: false,
     ytdlOptions: {
-        filter: 'audioonly',
         quality: 'highestaudio',
-        highWaterMark: 1 << 25
+        highWaterMark: 1 << 25,
+        requestOptions: {
+            headers: {
+                cookie: process.env.YT_COOKIE || ''
+            }
+        }
     }
-})
+});
 
 client.on("ready", () => {
     // Get all ids of the servers
@@ -84,5 +89,4 @@ client.on("interactionCreate", async interaction => {
         await interaction.reply({content: "There was an error executing this command"});
     }
 });
-
 client.login(process.env.TOKEN);
